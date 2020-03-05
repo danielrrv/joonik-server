@@ -20,10 +20,7 @@ const app = express();
 const {
     APP_SHOP
 
-} = require('./config');
-
-
-
+} = require('./config/index');
 
 
 app.use(cors())
