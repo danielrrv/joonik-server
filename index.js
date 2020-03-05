@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+
 const express = require('express');
 const app = express();
 const crypto = require('crypto');
@@ -104,15 +104,11 @@ app.get('/', (req, res) => {
 });
 
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
+const PORT = process.env.PORT || 3000;
 
-
-
-
-
-
-exports.api = functions.https.onRequest(app);
+app.listen(PORT, () => {
+    console.log('Example app listening on port 3000!');
+});
 
 
 
