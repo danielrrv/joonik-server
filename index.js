@@ -6,11 +6,19 @@ const cookie = require('cookie');
 const nonce = require('nonce')();
 const querystring = require('querystring');
 const request = require('request-promise');
-
 const apiKey = process.env.SHOPIFY_API_KEY
 const apiSecret = process.env.SHOPIFY_API_SECRET;
 const scopes = 'read_products';
-const forwardingAddress = ''; // Replace this with your HTTPS Forwarding address
+const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this with your HTTPS Forwarding address
+
+
+
+
+
+
+app.use(cors())
+
+
 
 app.get('/shopify', (req, res) => {
     const shop = req.query.shop;
@@ -103,6 +111,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+
+app.use("*", (req, res) => res.status(404).json({ error: "not found" }))
 
 const PORT = process.env.PORT || 3000;
 
