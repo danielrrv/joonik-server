@@ -1,6 +1,5 @@
 
 const express = require('express');
-
 const crypto = require('crypto');
 const cookie = require('cookie');
 const nonce = require('nonce')();
@@ -17,12 +16,19 @@ const app = express();
 
 
 
+
+const {
+    APP_SHOP
+
+} = require('./config');
+
+
+
+
+
 app.use(cors())
-
-
-
 app.get('/shopify', (req, res) => {
-    const shop = req.query.shop;
+    const shop = APP_SHOP;
     if (shop) {
         const state = nonce();
         const redirectUri = forwardingAddress + '/shopify/callback';
