@@ -1,6 +1,7 @@
 
 const express = require('express');
 const crypto = require('crypto');
+require('dotenv').config()
 const cookie = require('cookie');
 const nonce = require('nonce')();
 const ShopifyToken = require('shopify-token');
@@ -16,7 +17,8 @@ const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this w
 const app = express();
 
 const {
-    APP_SHOP
+    APP_SHOP,
+    SHOPIFY_APP_URL
 } = require('./config/index');
 
 
@@ -30,7 +32,8 @@ app.use(cors())
 const shopifyToken = new ShopifyToken({
     redirectUri: `${SHOPIFY_APP_URL}/callback`,
     sharedSecret: apiSecret,
-    apiKey,
+    scopes:['write_products', 'read_products'],
+    apiKey:apiKey,
     accessMode: 'per-user',
     timeout: 10000,
 });
@@ -58,7 +61,7 @@ app.get('/shopify', (req, res) => {
 
 
 
-app.get('/shopify/callback', (req, res) => {
+app.get('/callback', async(req, res) => {
     const { shop, hmac, code, state } = req.query;
     const stateCookie = cookie.parse(req.headers.cookie).state;
 
