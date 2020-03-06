@@ -3,6 +3,7 @@ const express = require('express');
 const crypto = require('crypto');
 const cookie = require('cookie');
 const nonce = require('nonce')();
+const ShopifyToken = require('shopify-token');
 const querystring = require('querystring');
 const request = require('request-promise');
 const apiKey = process.env.SHOPIFY_API_KEY
@@ -13,6 +14,7 @@ const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this w
 
 
 const app = express();
+
 const {
     APP_SHOP
 } = require('./config/index');
@@ -22,22 +24,36 @@ const {
 
 
 app.use(cors())
-app.get('/shopify', (req, res) => {
-    const shop = APP_SHOP;
-    if (shop) {
-        const state = nonce();
-        const redirectUri = forwardingAddress + '/shopify/callback';
-        const installUrl = 'https://' + shop +
-            '/admin/oauth/authorize?client_id=' + apiKey +
-            '&scope=' + scopes +
-            '&state=' + state +
-            '&redirect_uri=' + redirectUri;
 
-        res.cookie('state', state);
-        res.redirect(installUrl);
-    } else {
-        return res.status(400).send('Missing shop parameter. Please add ?shop=your-development-shop.myshopify.com to your request');
-    }
+
+
+const shopifyToken = new ShopifyToken({
+    redirectUri: `${SHOPIFY_APP_URL}/callback`,
+    sharedSecret: apiSecret,
+    apiKey,
+    accessMode: 'per-user',
+    timeout: 10000,
+});
+
+
+
+
+
+
+app.get('/shopify', (req, res) => {
+
+    shopifyToken.shop = APP_SHOP.replace('.myshopify', '')
+    const nonce = shopifyToken.generateNonce();
+    const uri = shopifyToken.generateAuthUrl(shopifyToken.shop,['read_products','write_products'], nonce);
+    // const redirectUri = forwardingAddress + '/shopify/callback';
+    // const installUrl = 'https://' + APP_SHOP +
+    //     '/admin/oauth/authorize?client_id=' + apiKey +
+    //     '&scope=' + scopes +
+    //     '&state=' + state +
+    //     '&redirect_uri=' + redirectUri;
+
+    res.cookie('state', nonce);
+    res.redirect(uri);
 });
 
 
