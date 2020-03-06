@@ -13,8 +13,10 @@ const apiSecret = process.env.SHOPIFY_API_SECRET;
 const scopes = 'read_products';
 const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this with your HTTPS Forwarding address
 const path = require('path')
+var cookieParser = require('cookie-parser')
 
 const app = express();
+app.use(cookieParser())
 
 const {
     APP_SHOP,
@@ -24,21 +26,16 @@ const {
 
 
 const Auth_shopify = function (req, res, next) {
+
     try {
+      
 
-        const state = cookie.parse(req.headers.cookie).state
-        const _vl = cookie.parse(req.headers.cookie)._vl
-        if (!state) {
-            return res.status(304).redirect('/shopify')
-        }
-
-        /**
-         * _vl es la cookie del toekn
-         * 
-        */
-        if (!_vl) {
+        if (!req.cookies.state ||!req.cookies._vl) {
             return res.status(304).redirect('/shopify');
         }
+
+
+
         next()
     } catch (error) {
         console.warn(error)
@@ -48,7 +45,7 @@ const Auth_shopify = function (req, res, next) {
 
 
 
-app.use('/',Auth_shopify, express.static(path.join(__dirname, 'public')))
+app.use('/', Auth_shopify, express.static(path.join(__dirname, 'public')))
 
 app.use(cors())
 
