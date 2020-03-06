@@ -13,10 +13,8 @@ const apiSecret = process.env.SHOPIFY_API_SECRET;
 const scopes = 'read_products';
 const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this with your HTTPS Forwarding address
 const path = require('path')
-var cookieParser = require('cookie-parser')
 
 const app = express();
-app.use(cookieParser())
 
 const {
     APP_SHOP,
@@ -25,26 +23,7 @@ const {
 
 
 
-const Auth_shopify = function (req, res, next) {
-
-    try {
-        if (!req.cookies.state ||!req.cookies._vl) {
-            return res.redirect('/inicio');
-        }
-        next()
-    } catch (error) {
-        console.warn(error)
-        return res.status(500).send('Ha ocurrido un Error!')
-    }
-}
-
-
-app.get('/inicio', (req,res)=>{
-    res.status(200).send('<a href="/shopify">Seguir</a>');
-})
-
-
-app.use('/', Auth_shopify, express.static(path.join(__dirname, 'public')))
+app.use('/',Auth_shopify, express.static(path.join(__dirname, 'public')))
 
 app.use(cors())
 
@@ -199,6 +178,28 @@ app.post('/graphql', async (request, response) => {
 
 })
 
+const Auth_shopify = function (req, res, next) {
+    try {
+
+        const state = cookie.parse(req.headers.cookie).state
+        const _vl = cookie.parse(req.headers.cookie)._vl
+        if (!state) {
+            return res.status(304).redirect('/shopify')
+        }
+
+        /**
+         * _vl es la cookie del toekn
+         * 
+        */
+        if (!_vl) {
+            return res.status(304).redirect('/shopify');
+        }
+        next()
+    } catch (error) {
+        console.warn(error)
+        return res.status(500).send('Ha ocurrido un Error!')
+    }
+}
 
 app.get('/', Auth_shopify, (req, res) => {
     res.send('Pagina de incio, listo para desarrollar');
