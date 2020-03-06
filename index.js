@@ -40,7 +40,7 @@ const Auth_shopify = function (req, res, next) {
 
 
 app.get('/inicio', (req,res)=>{
-    res.status(200).render(`<div><a href=${'/shopify'}><a></div>`);
+    res.status(200).send(`<div><a href=${'/shopify'}><a></div>`);
 })
 
 
