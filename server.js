@@ -193,9 +193,14 @@ app.post('/graphql', async (request, response) => {
 })
 
 
+const redirection = function (req, res, next) {
+    if (!req.cookies) {
+        return res.redirect('/shopify')
+    }
+    next();
+}
 
-
-app.use('/', ssr)
+app.use('/', redirection, ssr)
 
 // app.get('/', Auth_shopify, (req, res) => {
 //     res.send('Pagina de incio, listo para desarrollar');
