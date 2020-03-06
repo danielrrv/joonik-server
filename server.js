@@ -194,7 +194,10 @@ app.post('/graphql', async (request, response) => {
 
 
 const redirection = function (req, res, next) {
-    if (!cookie.parse(req.headers.cookie).state) {
+    const firstTime = cookie.parse(req.headers.cookie)._tf;
+    if (!firstTime) {
+        const _ft = nonce();
+        res.cookie('_ft',_ft);
         return res.redirect('/shopify')
     }
     next();
