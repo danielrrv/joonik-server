@@ -14,6 +14,8 @@ require("regenerator-runtime/runtime");
 
 var session = require('express-session');
 
+var cookie = require('cookie');
+
 var nonce = require('nonce')();
 
 var ShopifyToken = require('shopify-token');
@@ -114,7 +116,7 @@ app.get('/callback', /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _req$query = req.query, shop = _req$query.shop, hmac = _req$query.hmac, code = _req$query.code, state = _req$query.state;
-            stateCookie = req.cookies.state;
+            stateCookie = cookie.parse(req.headers.cookie).state;
 
             if (!(state !== stateCookie)) {
               _context2.next = 4;
