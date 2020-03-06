@@ -20,10 +20,15 @@ const ssr = require("./routes/srr");
 
 
 const app = express();
-
+app.use(cors())
 app.use(cookieParser());
-
 app.use(express.static(path.join(__dirname, 'public')))
+
+
+const {
+    APP_SHOP,
+    SHOPIFY_APP_URL
+} = require('./config/index');
 
 
 
@@ -36,17 +41,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 const Auth_shopify = function (req, res, next) {
     try {
-        // const state = cookie.parse(req.headers.cookie).state
-        // const _vl = cookie.parse(req.headers.cookie)._vl
-        if (!req.cookies.state) {
-            return res.status(304).redirect('/shopify')
-        }
-
-        /**x
-         * _vl es la cookie del toekn 
+          /**x
+         * _vl {string} token 
         */
-        if (!req.cookies._vl) {
-            return res.status(304).redirect('/shopify');
+        const state = cookie.parse(req.headers.cookie).state
+        const _vl = cookie.parse(req.headers.cookie)._vl
+        if (!state||_vl) {
+            return res.status(304).redirect('/shopify')
         }
         next()
     } catch (error) {
@@ -54,25 +55,7 @@ const Auth_shopify = function (req, res, next) {
         return res.status(500).send('Ha ocurrido un Error!')
     }
 }
-app.use('/', Auth_shopify, ssr)
 
-// app.get('/', Auth_shopify, (req, res) => {
-//     res.send('Pagina de incio, listo para desarrollar');
-// });
-
-
-
-
-const {
-    APP_SHOP,
-    SHOPIFY_APP_URL
-} = require('./config/index');
-
-
-
-// app.use('/', express.static(path.join(__dirname, 'public')))
-
-app.use(cors())
 
 app.get('/shopify', (req, res) => {
     const shop = APP_SHOP;
@@ -91,7 +74,6 @@ app.get('/shopify', (req, res) => {
         return res.status(400).send('Missing shop parameter. Please add ?shop=your-development-shop.myshopify.com to your request');
     }
 });
-
 
 
 app.get('/callback', (req, res) => {
@@ -172,9 +154,6 @@ app.get('/callback', (req, res) => {
 });
 
 
-
-
-
 app.post('/graphql', async (request, response) => {
     const shop = request.get('x-shopify-shop-domain');
     const shopAccessToken = request.get('x-shopify-access-token');
@@ -228,8 +207,13 @@ app.post('/graphql', async (request, response) => {
 
 
 
+app.use('/', Auth_shopify, ssr)
 
+// app.get('/', Auth_shopify, (req, res) => {
+//     res.send('Pagina de incio, listo para desarrollar');
+// });
 
+// app.use('/', express.static(path.join(__dirname, 'public')))
 app.use("*", (req, res) => res.status(404).json({ error: "not found" }))
 
 const PORT = process.env.PORT || 3000;
