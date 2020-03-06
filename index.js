@@ -27,11 +27,6 @@ const {
 
 app.use(cors())
 
-
-
-
-
-
 app.get('/shopify', (req, res) => {
     const shop = APP_SHOP;
     if (shop) {
@@ -93,7 +88,12 @@ app.get('/callback', (req, res) => {
             client_secret: apiSecret,
             code,
         };
-
+        ///setear el token en las cookies
+        /**
+         * Cuando tenga el access, token, guardar en las cookies y redireccionarlo a 
+         * la raiz de la app.
+         * 
+        */
         request.post(accessTokenRequestUrl, { json: accessTokenPayload })
             .then((accessTokenResponse) => {
                 const accessToken = accessTokenResponse.access_token;
@@ -121,7 +121,10 @@ app.get('/callback', (req, res) => {
 });
 
 
-app.post('/graphql', async () => {
+app.get('/root')
+
+
+app.post('/graphql', async (request, response) => {
     const shop = request.get('x-shopify-shop-domain');
     const shopAccessToken = request.get('x-shopify-access-token');
     const graphqlEndpoint = `https://${shop}/admin/api/graphql.json`;
@@ -135,7 +138,7 @@ app.post('/graphql', async () => {
     }
 
     try {
-        await request(graphqlEndpoint,{
+        await request(graphqlEndpoint, {
             method: 'POST',
             data: query,
             headers: {
@@ -171,10 +174,26 @@ app.post('/graphql', async () => {
 
 })
 
+const Auth_shopify = function (req, res, next) {
+    const state = cookie.parse(req.headers.cookie).state
+    const _vl = cookie.parse(req.headers.cookie)._vl
+    if (!state) {
+        return res.status(304).redirect('/shopify')
+    }
 
+    /**
+     * _vl es la cookie del toekn
+     * 
+    */
+    if (!_vl) {
+        return res.status(304).redirect('/shopify');
+    }
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+    next()
+}
+
+app.get('/', Auth_shopify, (req, res) => {
+    res.send('Pagina de incio, listo para desarrollar');
 });
 
 
