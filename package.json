@@ -28,6 +28,7 @@
     "nonce": "^1.0.4",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "regenerator-runtime": "^0.13.3",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "shopify-token": "^4.0.0"
