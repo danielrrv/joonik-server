@@ -175,21 +175,26 @@ app.post('/graphql', async (request, response) => {
 })
 
 const Auth_shopify = function (req, res, next) {
-    const state = cookie.parse(req.headers.cookie).state
-    const _vl = cookie.parse(req.headers.cookie)._vl
-    if (!state) {
-        return res.status(304).redirect('/shopify')
-    }
+    try {
 
-    /**
-     * _vl es la cookie del toekn
-     * 
-    */
-    if (!_vl) {
-        return res.status(304).redirect('/shopify');
-    }
+        const state = cookie.parse(req.headers.cookie).state
+        const _vl = cookie.parse(req.headers.cookie)._vl
+        if (!state) {
+            return res.status(304).redirect('/shopify')
+        }
 
-    next()
+        /**
+         * _vl es la cookie del toekn
+         * 
+        */
+        if (!_vl) {
+            return res.status(304).redirect('/shopify');
+        }
+        next()
+    } catch (error) {
+        console.warn(error)
+        return res.status(500).send('Ha ocurrido un Error!')
+    }
 }
 
 app.get('/', Auth_shopify, (req, res) => {
