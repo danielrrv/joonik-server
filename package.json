@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "npm run build && node dist/server.js",
-    "build": "babel lib -d dist",
+    "build": "babel lib -d dist && webpack --config webpack.config.js",
     "dev": "npm run build && nodemon dist/server.js",
     "webpack": "webpack -wd"
   },

@@ -10,6 +10,8 @@ var crypto = require('crypto');
 
 require('dotenv').config();
 
+require("regenerator-runtime/runtime");
+
 var cookie = require('cookie');
 
 var cookieParser = require('cookie-parser');
@@ -285,9 +287,11 @@ app.post('/graphql', /*#__PURE__*/function () {
 }());
 
 var redirection = function redirection(req, res, next) {
-  var firstTime = cookie.parse(req.headers.cookie)._ft;
+  // console.log(req.cookies)
+  // const firstTime = req.headers.cookie._ft;
+  if (!req.cookies) {
+    console.log('port aqio');
 
-  if (!firstTime) {
     var _ft = nonce();
 
     res.cookie('_ft', _ft);

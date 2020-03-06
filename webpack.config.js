@@ -3,12 +3,11 @@ const path = require("path");
 const config = {
   entry: {
     vendor: ["@babel/polyfill", "react"],
-    app: ["./components/index.js"],
-    useBuiltIns: "entry"
+    app: ["./lib/components/index.js"]
   },
 
   output: {
-    path: path.resolve(__dirname, "public"),
+    path: path.resolve(__dirname, "dist/public"),
     filename: "[name].js"
   },
   module: {
