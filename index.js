@@ -28,10 +28,8 @@ const {
 const Auth_shopify = function (req, res, next) {
 
     try {
-      
-
         if (!req.cookies.state ||!req.cookies._vl) {
-            return res.redirect('/shopify');
+            return res.redirect('/inicio');
         }
         next()
     } catch (error) {
@@ -40,6 +38,10 @@ const Auth_shopify = function (req, res, next) {
     }
 }
 
+
+app.get('/inicio', (req,res)=>{
+    res.status(200).render(`<div><a href=${'/shopify'}><a></div>`);
+})
 
 
 app.use('/', Auth_shopify, express.static(path.join(__dirname, 'public')))
