@@ -71,24 +71,18 @@ app.get('/shopify/callback', (req, res) => {
         return res.status(422).json({ status: "Unsopported Action" });
     }
 
-    let token
     if (shopifyToken.verifyHmac(request.query)) {
         // Get permanent access token that will be used in the future to make API calls
         const data = await shopifyToken.getAccessToken(shop, code)
         let timeNow = + new Date()
         const expiresAt = timeNow + (data.expires_in - 20 * 1000)
         const tokenData = { ...data, expires_at: expiresAt } // TODO: change from unix timestamp to Firestore date
-        token = tokenData.access_token
-    } else {
-
-        return response.status(500).json({ status: 'Error occurred', error: e.stack })
-    }
-    if (token) {
-
+        const token = tokenData.access_token;
         const shopRequestUrl = 'https://' + shop + '/admin/api/2020-01/shop.json';
         const shopRequestHeaders = {
             'X-Shopify-Access-Token': token,
         }
+
         request.get(shopRequestUrl, { headers: shopRequestHeaders })
             .then((shopResponse) => {
                 res.status(200).end(shopResponse);
@@ -97,8 +91,10 @@ app.get('/shopify/callback', (req, res) => {
                 res.status(error.statusCode).send(error.error.error_description);
             });
 
-
+    } else {
+        return response.status(500).json({ status: 'Error occurred', error: e.stack })
     }
+
 
 
 
