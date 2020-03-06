@@ -25,6 +25,14 @@ app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 
 
+const shopifyToken = new ShopifyToken({
+    sharedSecret: process.env.SHOPIFY_API_SECRET,
+    redirectUri: `${forwardingAddress}/callback`,
+    apiKey: process.env.SHOPIFY_API_KEY
+});
+
+
+
 const {
     APP_SHOP,
     SHOPIFY_APP_URL
@@ -194,7 +202,7 @@ app.post('/graphql', async (request, response) => {
 
 
 const redirection = function (req, res, next) {
-    const firstTime = cookie.parse(req.headers.cookie)._tf;
+    const firstTime = cookie.parse(req.headers.cookie)._ft;
     if (!firstTime) {
         const _ft = nonce();
         res.cookie('_ft',_ft);

@@ -43,7 +43,7 @@ class App extends React.Component {
         return (
             //do something here where there is a button that will replace the text
             <div>
-                <a href={`/shopify`}>Ir a commercio</a>
+                {/* <button onClick={()=>window.location.href='/'}>Ir a commercio</button> */}
                 <label>Your name </label>
                 <input
                     type="text"
