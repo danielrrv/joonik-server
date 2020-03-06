@@ -12,9 +12,7 @@ require('dotenv').config();
 
 require("regenerator-runtime/runtime");
 
-var cookie = require('cookie');
-
-var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var nonce = require('nonce')();
 
@@ -37,9 +35,20 @@ var path = require('path');
 var ssr = require('./routes/srr');
 
 var app = express();
-app.use(cors()); // app.use(cookieParser());
-
+app.use(cors());
 app.use(express["static"](path.join(__dirname, 'public')));
+var expiryDate = new Date(Date.now() + 60 * 60 * 1000);
+app.use(session({
+  name: "_ft",
+  secret: nonce(),
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    sameSite: "none"
+  }
+}));
 var shopifyToken = new ShopifyToken({
   sharedSecret: process.env.SHOPIFY_API_SECRET,
   redirectUri: "".concat(forwardingAddress, "/callback"),
@@ -105,7 +114,7 @@ app.get('/callback', /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _req$query = req.query, shop = _req$query.shop, hmac = _req$query.hmac, code = _req$query.code, state = _req$query.state;
-            stateCookie = cookie.parse(req.headers.cookie).state;
+            stateCookie = req.cookies.state;
 
             if (!(state !== stateCookie)) {
               _context2.next = 4;
@@ -312,6 +321,13 @@ app.use("*", function (req, res) {
   });
 });
 var PORT = process.env.PORT || 3000;
+/**
+ * On February 17th 2020, an update 
+ * to the Google Chrome browser (Chrome 80) will
+ *  change the way websites are able to access browser cookies.
+ * 
+*/
+
 app.listen(PORT, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('joonik listening on port 3000!');
 });
