@@ -35,22 +35,37 @@ var forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this wit
 var path = require('path');
 
 var ssr = require('./routes/srr');
+/**
+ * @link {https://shopify.dev/tutorials/migrate-your-app-to-support-samesite-cookies}
+ * @link {chrome://flags/#samesite}
+ * SameSite by default cookies
+ * Enable removing SameSite=None cookies
+ * Cookies without SameSite must be secure
+*/
+
 
 var app = express();
 app.use(cors());
-app.use(express["static"](path.join(__dirname, 'public')));
-var expiryDate = new Date(Date.now() + 60 * 60 * 1000);
 app.use(session({
-  name: "_ft",
-  secret: nonce(),
+  secret: 'gaticos',
+  name: 'siteOption',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
+    sameSite: 'none',
     secure: true,
-    httpOnly: true,
-    sameSite: "none"
+    htttpOnly: false
   }
 }));
+app.use(express["static"](path.join(__dirname, 'public'))); // const expiryDate = new Date(Date.now() + 60 * 60 * 1000)
+// app.use(session({
+//     name: "_ft",
+//     secret: nonce(),
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: true, httpOnly: true, sameSite: "none" }
+// }))
+
 var shopifyToken = new ShopifyToken({
   sharedSecret: process.env.SHOPIFY_API_SECRET,
   redirectUri: "".concat(forwardingAddress, "/callback"),
@@ -87,7 +102,10 @@ app.get('/shopify', /*#__PURE__*/function () {
             state = nonce();
             redirectUri = forwardingAddress + '/callback';
             installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id=' + apiKey + '&scope=' + scopes + '&state=' + state + '&redirect_uri=' + redirectUri;
-            res.cookie('state', state);
+            res.cookie('state', state, {
+              sameSite: 'none',
+              secure: true
+            });
             res.redirect(installUrl);
             _context.next = 10;
             break;
@@ -116,18 +134,19 @@ app.get('/callback', /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _req$query = req.query, shop = _req$query.shop, hmac = _req$query.hmac, code = _req$query.code, state = _req$query.state;
+            _context2.prev = 1;
             stateCookie = cookie.parse(req.headers.cookie).state;
 
             if (!(state !== stateCookie)) {
-              _context2.next = 4;
+              _context2.next = 5;
               break;
             }
 
             return _context2.abrupt("return", res.status(403).send('Request origin cannot be verified'));
 
-          case 4:
+          case 5:
             if (!(shop && hmac && code)) {
-              _context2.next = 21;
+              _context2.next = 22;
               break;
             }
 
@@ -149,13 +168,13 @@ app.get('/callback', /*#__PURE__*/function () {
             ;
 
             if (hashEquals) {
-              _context2.next = 16;
+              _context2.next = 17;
               break;
             }
 
             return _context2.abrupt("return", res.status(400).send('HMAC validation failed'));
 
-          case 16:
+          case 17:
             // DONE: Exchange temporary code for a permanent access token
             accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
             accessTokenPayload = {
@@ -190,18 +209,28 @@ app.get('/callback', /*#__PURE__*/function () {
             })["catch"](function (error) {
               res.status(error.statusCode).send(error.error.error_description);
             });
-            _context2.next = 22;
+            _context2.next = 23;
             break;
 
-          case 21:
+          case 22:
             res.status(400).send('Required parameters missing');
 
-          case 22:
+          case 23:
+            _context2.next = 29;
+            break;
+
+          case 25:
+            _context2.prev = 25;
+            _context2.t0 = _context2["catch"](1);
+            console.warn(_context2.t0);
+            res.status(500).send('something went wrong!');
+
+          case 29:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[1, 25]]);
   }));
 
   return function (_x3, _x4) {
@@ -305,7 +334,10 @@ var redirection = function redirection(req, res, next) {
 
     var _ft = nonce();
 
-    res.cookie('_ft', _ft);
+    res.cookie('_ft', _ft, {
+      sameSite: 'none',
+      secure: true
+    });
     return res.redirect('/shopify');
   }
 
