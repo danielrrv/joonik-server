@@ -39,25 +39,13 @@ const {
 */
 
 
-const Auth_shopify = function (req, res, next) {
-    try {
-          /**x
-         * _vl {string} token 
-        */
-        const state =req.headers.cookie.state
-        const _vl =req.headers.cookie._vl
-        if (!state||_vl) {
-            return res.status(304).redirect('/shopify')
-        }
-        next()
-    } catch (error) {
-        console.warn(error)
-        return res.status(500).send('Ha ocurrido un Error!')
-    }
-}
+// const Auth_shopify = async function (req, res, next) {
+//     res.redirect('/shopify')
+//     next()
+// }
 
 
-app.get('/shopify', (req, res) => {
+app.get('/shopify', async (req, res) => {
     const shop = APP_SHOP;
     if (shop) {
         const state = nonce();
@@ -76,7 +64,7 @@ app.get('/shopify', (req, res) => {
 });
 
 
-app.get('/callback', (req, res) => {
+app.get('/callback', async (req, res) => {
     const { shop, hmac, code, state } = req.query;
     const stateCookie = cookie.parse(req.headers.cookie).state;
 
@@ -207,7 +195,7 @@ app.post('/graphql', async (request, response) => {
 
 
 
-app.use('/', Auth_shopify, ssr)
+app.use('/', ssr)
 
 // app.get('/', Auth_shopify, (req, res) => {
 //     res.send('Pagina de incio, listo para desarrollar');

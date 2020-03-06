@@ -43,6 +43,7 @@ class App extends React.Component {
         return (
             //do something here where there is a button that will replace the text
             <div>
+                <a href={`/shopify`}>Ir a commercio</a>
                 <label>Your name </label>
                 <input
                     type="text"
@@ -51,6 +52,7 @@ class App extends React.Component {
                     value={this.state.name}
                     onChange={this.handleTextChange}
                 />
+                
                 <button id="btnSubmit" onClick={this.handleButtonClick}>
                     Calculate Name Length
         </button>
