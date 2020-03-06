@@ -34,7 +34,7 @@ const shopifyToken = new ShopifyToken({
     sharedSecret: apiSecret,
     scopes:'read_products',
     apiKey:apiKey,
-    accessMode: 'per-user',
+    // accessMode: 'per-user',
     timeout: 10000,
 });
 
