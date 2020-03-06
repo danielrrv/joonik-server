@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    // "start": "node babel-node npm ./server.js",
     "start": "nodemon --exec babel-node ./server.js",
     "webpack": "webpack -wd"
   },
