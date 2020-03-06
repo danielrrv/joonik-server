@@ -12,7 +12,7 @@ const cors = require('cors')
 const apiSecret = process.env.SHOPIFY_API_SECRET;
 const scopes = 'read_products';
 const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this with your HTTPS Forwarding address
-
+const path = require('path')
 
 const app = express();
 
@@ -23,7 +23,7 @@ const {
 
 
 
-
+app.use('/',  express.static(path.join(__dirname, 'public')))
 
 app.use(cors())
 
