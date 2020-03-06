@@ -23,7 +23,7 @@ const {
 
 
 
-app.use('/',Auth_shopify, express.static(path.join(__dirname, 'public')))
+app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use(cors())
 
