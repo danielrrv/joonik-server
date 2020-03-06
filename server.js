@@ -21,7 +21,7 @@ const ssr = require("./routes/srr");
 
 const app = express();
 app.use(cors())
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')))
 
 
@@ -194,7 +194,7 @@ app.post('/graphql', async (request, response) => {
 
 
 const redirection = function (req, res, next) {
-    if (!req.cookies) {
+    if (!cookie.parse(req.headers.cookie).state) {
         return res.redirect('/shopify')
     }
     next();
