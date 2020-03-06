@@ -82,13 +82,13 @@ app.get('/callback', async (req, res) => {
     if (shopifyToken.verifyHmac(request.query)) {
         // Get permanent access token that will be used in the future to make API calls
         const data = await shopifyToken.getAccessToken(shop, code)
-        let timeNow = + new Date()
-        const expiresAt = timeNow + (data.expires_in - 20 * 1000)
-        const tokenData = { ...data, expires_at: expiresAt } // TODO: change from unix timestamp to Firestore date
+        // let timeNow = + new Date()
+        // const expiresAt = timeNow + (data.expires_in - 20 * 1000)
+        // const tokenData = { ...data, expires_at: expiresAt } // TODO: change from unix timestamp to Firestore date
         const token = tokenData.access_token;
         const shopRequestUrl = 'https://' + shop + '/admin/api/2020-01/shop.json';
         const shopRequestHeaders = {
-            'X-Shopify-Access-Token': token,
+            'X-Shopify-Access-Token': data.access_token,
         }
 
         request.get(shopRequestUrl, { headers: shopRequestHeaders })
