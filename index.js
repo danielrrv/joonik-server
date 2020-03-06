@@ -31,11 +31,8 @@ const Auth_shopify = function (req, res, next) {
       
 
         if (!req.cookies.state ||!req.cookies._vl) {
-            return res.status(304).redirect('/shopify');
+            return res.redirect('/shopify');
         }
-
-
-
         next()
     } catch (error) {
         console.warn(error)
