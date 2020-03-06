@@ -23,6 +23,31 @@ const {
 
 
 
+const Auth_shopify = function (req, res, next) {
+    try {
+
+        const state = cookie.parse(req.headers.cookie).state
+        const _vl = cookie.parse(req.headers.cookie)._vl
+        if (!state) {
+            return res.status(304).redirect('/shopify')
+        }
+
+        /**
+         * _vl es la cookie del toekn
+         * 
+        */
+        if (!_vl) {
+            return res.status(304).redirect('/shopify');
+        }
+        next()
+    } catch (error) {
+        console.warn(error)
+        return res.status(500).send('Ha ocurrido un Error!')
+    }
+}
+
+
+
 app.use('/',Auth_shopify, express.static(path.join(__dirname, 'public')))
 
 app.use(cors())
@@ -178,28 +203,6 @@ app.post('/graphql', async (request, response) => {
 
 })
 
-const Auth_shopify = function (req, res, next) {
-    try {
-
-        const state = cookie.parse(req.headers.cookie).state
-        const _vl = cookie.parse(req.headers.cookie)._vl
-        if (!state) {
-            return res.status(304).redirect('/shopify')
-        }
-
-        /**
-         * _vl es la cookie del toekn
-         * 
-        */
-        if (!_vl) {
-            return res.status(304).redirect('/shopify');
-        }
-        next()
-    } catch (error) {
-        console.warn(error)
-        return res.status(500).send('Ha ocurrido un Error!')
-    }
-}
 
 app.get('/', Auth_shopify, (req, res) => {
     res.send('Pagina de incio, listo para desarrollar');
