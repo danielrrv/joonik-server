@@ -44,8 +44,8 @@ const Auth_shopify = function (req, res, next) {
           /**x
          * _vl {string} token 
         */
-        const state = cookie.parse(req.headers.cookie).state
-        const _vl = cookie.parse(req.headers.cookie)._vl
+        const state =req.headers.cookie.state
+        const _vl =req.headers.cookie._vl
         if (!state||_vl) {
             return res.status(304).redirect('/shopify')
         }
