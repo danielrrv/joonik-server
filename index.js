@@ -13,14 +13,12 @@ const forwardingAddress = 'https://joonik-node.herokuapp.com'; // Replace this w
 
 
 const app = express();
-
-
-
-
 const {
     APP_SHOP
-
 } = require('./config/index');
+
+
+
 
 
 app.use(cors())
@@ -41,6 +39,8 @@ app.get('/shopify', (req, res) => {
         return res.status(400).send('Missing shop parameter. Please add ?shop=your-development-shop.myshopify.com to your request');
     }
 });
+
+
 
 app.get('/shopify/callback', (req, res) => {
     const { shop, hmac, code, state } = req.query;
