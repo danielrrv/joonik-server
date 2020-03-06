@@ -32,7 +32,7 @@ app.use(cors())
 const shopifyToken = new ShopifyToken({
     redirectUri: `${SHOPIFY_APP_URL}/callback`,
     sharedSecret: apiSecret,
-    scopes:['write_products', 'read_products'],
+    scopes:'read_products',
     apiKey:apiKey,
     accessMode: 'per-user',
     timeout: 10000,
@@ -47,7 +47,7 @@ app.get('/shopify', (req, res) => {
 
     shopifyToken.shop = APP_SHOP.replace('.myshopify', '')
     const nonce = shopifyToken.generateNonce();
-    const uri = shopifyToken.generateAuthUrl(shopifyToken.shop, ['read_products', 'write_products'], nonce);
+    const uri = shopifyToken.generateAuthUrl(shopifyToken.shop,  'read_products', nonce);
     // const redirectUri = forwardingAddress + '/shopify/callback';
     // const installUrl = 'https://' + APP_SHOP +
     //     '/admin/oauth/authorize?client_id=' + apiKey +
