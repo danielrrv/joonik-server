@@ -32,8 +32,8 @@ app.use(cors())
 const shopifyToken = new ShopifyToken({
     redirectUri: `${SHOPIFY_APP_URL}/callback`,
     sharedSecret: apiSecret,
-    scopes:'read_products',
-    apiKey:apiKey,
+    scopes: 'read_products',
+    apiKey: apiKey,
     // accessMode: 'per-user',
     timeout: 10000,
 });
@@ -43,23 +43,30 @@ const shopifyToken = new ShopifyToken({
 
 
 
-app.get('/shopify', (req, res) => {
-    shopifyToken.shop = APP_SHOP.replace('.myshopify', '')
-    const nonce = shopifyToken.generateNonce();
-    const uri = shopifyToken.generateAuthUrl(shopifyToken.shop,  'read_products', nonce);
-    // const redirectUri = forwardingAddress + '/shopify/callback';
-    // const installUrl = 'https://' + APP_SHOP +
-    //     '/admin/oauth/authorize?client_id=' + apiKey +
-    //     '&scope=' + scopes +
-    //     '&state=' + state +
-    //     '&redirect_uri=' + redirectUri;
-    res.cookie('state', nonce);
-    res.redirect(uri);
+app.get('/shopify', async (req, res) => {
+    try {
+        shopifyToken.shop = APP_SHOP.replace('.myshopify', '')
+        const nonce = shopifyToken.generateNonce();
+        const uri = shopifyToken.generateAuthUrl(shopifyToken.shop, 'read_products', nonce);
+        // const redirectUri = forwardingAddress + '/shopify/callback';
+        // const installUrl = 'https://' + APP_SHOP +
+        //     '/admin/oauth/authorize?client_id=' + apiKey +
+        //     '&scope=' + scopes +
+        //     '&state=' + state +
+        //     '&redirect_uri=' + redirectUri;
+        res.cookie('state', nonce);
+        res.status(200).send(`<div><a href=${uri}>${uri}</a></div>`);
+
+    } catch (error) {
+        console.warn(e);
+        return response.status(500).json({ status: 'error' });
+    }
+
 });
 
 
 
-app.get('/callback', async(req, res) => {
+app.get('/callback', async (req, res) => {
     const { shop, hmac, code, state } = req.query;
     const stateCookie = cookie.parse(req.headers.cookie).state;
 
