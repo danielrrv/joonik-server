@@ -44,7 +44,6 @@ const shopifyToken = new ShopifyToken({
 
 
 app.get('/shopify', (req, res) => {
-
     shopifyToken.shop = APP_SHOP.replace('.myshopify', '')
     const nonce = shopifyToken.generateNonce();
     const uri = shopifyToken.generateAuthUrl(shopifyToken.shop,  'read_products', nonce);
@@ -54,7 +53,6 @@ app.get('/shopify', (req, res) => {
     //     '&scope=' + scopes +
     //     '&state=' + state +
     //     '&redirect_uri=' + redirectUri;
-
     res.cookie('state', nonce);
     res.redirect(uri);
 });
@@ -65,9 +63,9 @@ app.get('/callback', async(req, res) => {
     const { shop, hmac, code, state } = req.query;
     const stateCookie = cookie.parse(req.headers.cookie).state;
 
-    if (state !== stateCookie) {
-        return res.status(403).send('Request origin cannot be verified');
-    }
+    // if (state !== stateCookie) {
+    //     return res.status(403).send('Request origin cannot be verified');
+    // }
 
 
     if (!shop || !hmac || !code) {
