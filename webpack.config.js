@@ -30,17 +30,13 @@ const config = {
   resolve: {
     extensions: [".js", ".jsx", ".json", ".wasm", ".mjs", "*"]
   },
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin()],
-  },
+  // optimization: {
+  //   minimize: true,
+  //   minimizer: [new TerserPlugin()],
+  // },
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
+   
     
   ],
 };
