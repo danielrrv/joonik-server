@@ -1,9 +1,11 @@
-const APP_SHOP = 'joonikshop.myshopify.com';
-const SHOPIFY_APP_URL = 'https://joonik-node.herokuapp.com'
+const SHOPIFY_APP_URL = 'joonikshop.myshopify.com';//public
+const EXTERNAL_APP_URL = 'https://joonik-node.herokuapp.com'
+const SCOPES = 'read_products'
 
 module.exports = {
-    APP_SHOP,
-    SHOPIFY_APP_URL
+    SHOPIFY_APP_URL,
+    SCOPES,
+    EXTERNAL_APP_URL
 }
 
 
