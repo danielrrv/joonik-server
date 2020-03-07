@@ -30,15 +30,15 @@ const config = {
   resolve: {
     extensions: [".js", ".jsx", ".json", ".wasm", ".mjs", "*"]
   },
-  // optimization: {
-  //   minimize: true,
-  //   minimizer: [new TerserPlugin()],
-  // },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env.SHOPIFY_API_KEY":JSON.stringify(process.env.SHOPIFY_API_KEY)
-    })
-  ],
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
+  // plugins: [
+  //   new webpack.DefinePlugin({
+  //     "process.env.SHOPIFY_API_KEY":JSON.stringify(process.env.SHOPIFY_API_KEY)
+  //   })
+  // ],
 };
 
 module.exports = config;
