@@ -9,7 +9,7 @@ const Login = props => {
 
     const handleSubmit = React.useCallback(_event => {
         setEmail('');
-        setNewsletter(false);
+        setPassword('')
     }, []);
     const handleEmailChange = React.useCallback(value => setEmail(value), []);
     const handlePasswordChange = React.useCallback(value => setPassword(value), []);
@@ -18,7 +18,7 @@ const Login = props => {
         <Page>
             <Form onSubmit={handleSubmit} autoComplete={true}>
                 <FormLayout>
-                    <Checkbox label="Sign up for the Polaris newsletter" checked={newsletter} onChange={handleNewsLetterChange} />
+                    {/* <Checkbox label="Sign up for the Polaris newsletter" checked={newsletter} onChange={handleNewsLetterChange} /> */}
 
                     <TextField value={email} onChange={handleEmailChange} label="Email" type="email" helpText={<span>
                         We’ll use this email address to inform you on future changes to
