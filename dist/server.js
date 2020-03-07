@@ -46,13 +46,19 @@ var ssr = require('./routes/srr');
 
 var app = express();
 app.use(cors());
-app.set('trust proxy', 1); // app.use(session({ 
-//     secret:'gaticos',
-//     name:'siteOption',
-//     resave:false,
-//     saveUninitialized:false,
-//     cookie: { sameSite: 'none', secure: true, htttpOnly: false } }))
-
+app.set('trust proxy');
+app.use(session({
+  secret: 'gaticos',
+  name: 'siteOption',
+  resave: false,
+  sameSite: "none",
+  saveUninitialized: false,
+  cookie: {
+    sameSite: 'none',
+    secure: true,
+    htttpOnly: false
+  }
+}));
 app.use(express["static"](path.join(__dirname, 'public')));
 app.use(session({
   name: "_ft",
@@ -61,7 +67,6 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     secure: true,
-    httpOnly: true,
     sameSite: "none"
   }
 }));
@@ -138,7 +143,7 @@ app.get('/callback', /*#__PURE__*/function () {
               break;
             }
 
-            return _context2.abrupt("return", res.status(403).send('Request origin cannot be verified'));
+            return _context2.abrupt("return", res.status(403).send("Request origin cannot be verified\nprevious:".concat(state, "\t").concat(stateCookie)));
 
           case 5:
             if (!(shop && hmac && code)) {
@@ -323,8 +328,6 @@ app.post('/graphql', /*#__PURE__*/function () {
 }());
 
 var redirection = function redirection(req, res, next) {
-  // console.log(req.cookies)
-  // const firstTime = req.headers.cookie._ft;
   if (!req.cookies) {
     return res.redirect('/shopify');
   }
@@ -350,6 +353,12 @@ var PORT = process.env.PORT || 3000;
  * 
 */
 
+app.use(function (err, req, res, next) {
+  res.locals.error = err;
+  var status = err.status || 500;
+  res.status(status);
+  res.render('error');
+});
 app.listen(PORT, function () {
   console.log('joonik listening on port 3000!');
 });
