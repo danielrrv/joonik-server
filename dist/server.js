@@ -46,26 +46,25 @@ var ssr = require('./routes/srr');
 
 var app = express();
 app.use(cors());
+app.set('trust proxy', 1); // app.use(session({ 
+//     secret:'gaticos',
+//     name:'siteOption',
+//     resave:false,
+//     saveUninitialized:false,
+//     cookie: { sameSite: 'none', secure: true, htttpOnly: false } }))
+
+app.use(express["static"](path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'gaticos',
-  name: 'siteOption',
+  name: "_ft",
+  secret: nonce(),
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
-    sameSite: 'none',
     secure: true,
-    htttpOnly: false
+    httpOnly: true,
+    sameSite: "none"
   }
 }));
-app.use(express["static"](path.join(__dirname, 'public'))); // const expiryDate = new Date(Date.now() + 60 * 60 * 1000)
-// app.use(session({
-//     name: "_ft",
-//     secret: nonce(),
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: true, httpOnly: true, sameSite: "none" }
-// }))
-
 var shopifyToken = new ShopifyToken({
   sharedSecret: process.env.SHOPIFY_API_SECRET,
   redirectUri: "".concat(forwardingAddress, "/callback"),
@@ -102,10 +101,7 @@ app.get('/shopify', /*#__PURE__*/function () {
             state = nonce();
             redirectUri = forwardingAddress + '/callback';
             installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id=' + apiKey + '&scope=' + scopes + '&state=' + state + '&redirect_uri=' + redirectUri;
-            res.cookie('state', state, {
-              sameSite: 'none',
-              secure: true
-            });
+            res.cookie('state', state);
             res.redirect(installUrl);
             _context.next = 10;
             break;
@@ -197,8 +193,8 @@ app.get('/callback', /*#__PURE__*/function () {
               // const shopRequestHeaders = {
               //     'X-Shopify-Access-Token': accessToken,
               // };
+              // res.cookie('_vl', accessToken);
 
-              res.cookie('_vl', accessToken);
               res.redirect('/'); // request.get(shopRequestUrl, { headers: shopRequestHeaders })
               //     .then((shopResponse) => {
               //         res.status(200).end(shopResponse);
@@ -330,14 +326,6 @@ var redirection = function redirection(req, res, next) {
   // console.log(req.cookies)
   // const firstTime = req.headers.cookie._ft;
   if (!req.cookies) {
-    console.log('port aqio');
-
-    var _ft = nonce();
-
-    res.cookie('_ft', _ft, {
-      sameSite: 'none',
-      secure: true
-    });
     return res.redirect('/shopify');
   }
 
