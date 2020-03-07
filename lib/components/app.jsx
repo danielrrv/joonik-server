@@ -1,7 +1,7 @@
 import React from "react";
 import { AppProvider } from '@shopify/polaris';
 import translations from '@shopify/polaris/locales/en.json';
-import Login from './Login'
+import Login from './login'
 
 const App = () => {
     // const { Component, pageProps } = props;

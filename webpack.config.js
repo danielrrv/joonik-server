@@ -36,8 +36,6 @@ const config = {
   // },
   plugins: [
     new CleanWebpackPlugin(),
-   
-    
   ],
 };
 
