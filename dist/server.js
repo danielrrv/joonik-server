@@ -59,17 +59,14 @@ app.use(session({
     htttpOnly: false
   }
 }));
-app.use(express["static"](path.join(__dirname, 'public')));
-app.use(session({
-  name: "_ft",
-  secret: nonce(),
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    secure: true,
-    sameSite: "none"
-  }
-}));
+app.use(express["static"](path.join(__dirname, 'public'))); // app.use(session({
+//     name: "_ft",
+//     secret: nonce(),
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: true, sameSite: "none" }
+// }))
+
 var shopifyToken = new ShopifyToken({
   sharedSecret: process.env.SHOPIFY_API_SECRET,
   redirectUri: "".concat(forwardingAddress, "/callback"),
@@ -106,7 +103,10 @@ app.get('/shopify', /*#__PURE__*/function () {
             state = nonce();
             redirectUri = forwardingAddress + '/callback';
             installUrl = 'https://' + shop + '/admin/oauth/authorize?client_id=' + apiKey + '&scope=' + scopes + '&state=' + state + '&redirect_uri=' + redirectUri;
-            res.cookie('state', state);
+            res.cookie('state', state, {
+              sameSite: 'none',
+              secure: true
+            });
             res.redirect(installUrl);
             _context.next = 10;
             break;
@@ -136,18 +136,19 @@ app.get('/callback', /*#__PURE__*/function () {
           case 0:
             _req$query = req.query, shop = _req$query.shop, hmac = _req$query.hmac, code = _req$query.code, state = _req$query.state;
             _context2.prev = 1;
-            stateCookie = cookie.parse(req.headers.cookie).state;
+            console.log(req.headers.cookie);
+            stateCookie = req.headers.cookie.state;
 
             if (!(state !== stateCookie)) {
-              _context2.next = 5;
+              _context2.next = 6;
               break;
             }
 
-            return _context2.abrupt("return", res.status(403).send("Request origin cannot be verified\nprevious:".concat(state, "\t").concat(stateCookie)));
+            return _context2.abrupt("return", res.status(403).send("Request origin cannot be verified  previous:".concat(state, " now:").concat(req.headers)));
 
-          case 5:
+          case 6:
             if (!(shop && hmac && code)) {
-              _context2.next = 22;
+              _context2.next = 23;
               break;
             }
 
@@ -169,13 +170,13 @@ app.get('/callback', /*#__PURE__*/function () {
             ;
 
             if (hashEquals) {
-              _context2.next = 17;
+              _context2.next = 18;
               break;
             }
 
             return _context2.abrupt("return", res.status(400).send('HMAC validation failed'));
 
-          case 17:
+          case 18:
             // DONE: Exchange temporary code for a permanent access token
             accessTokenRequestUrl = 'https://' + shop + '/admin/oauth/access_token';
             accessTokenPayload = {
@@ -200,7 +201,7 @@ app.get('/callback', /*#__PURE__*/function () {
               // };
               // res.cookie('_vl', accessToken);
 
-              res.redirect('/'); // request.get(shopRequestUrl, { headers: shopRequestHeaders })
+              return res.redirect('/'); // request.get(shopRequestUrl, { headers: shopRequestHeaders })
               //     .then((shopResponse) => {
               //         res.status(200).end(shopResponse);
               //     })
@@ -210,28 +211,28 @@ app.get('/callback', /*#__PURE__*/function () {
             })["catch"](function (error) {
               res.status(error.statusCode).send(error.error.error_description);
             });
-            _context2.next = 23;
+            _context2.next = 24;
             break;
-
-          case 22:
-            res.status(400).send('Required parameters missing');
 
           case 23:
-            _context2.next = 29;
+            res.status(400).send('Required parameters missing');
+
+          case 24:
+            _context2.next = 30;
             break;
 
-          case 25:
-            _context2.prev = 25;
+          case 26:
+            _context2.prev = 26;
             _context2.t0 = _context2["catch"](1);
             console.warn(_context2.t0);
             res.status(500).send('something went wrong!');
 
-          case 29:
+          case 30:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 25]]);
+    }, _callee2, null, [[1, 26]]);
   }));
 
   return function (_x3, _x4) {
@@ -329,9 +330,11 @@ app.post('/graphql', /*#__PURE__*/function () {
 
 var redirection = function redirection(req, res, next) {
   if (!req.cookies) {
+    console.log('por aqui');
     return res.redirect('/shopify');
   }
 
+  console.log('como si estan');
   next();
 };
 
@@ -357,7 +360,7 @@ app.use(function (err, req, res, next) {
   res.locals.error = err;
   var status = err.status || 500;
   res.status(status);
-  res.render('error');
+  res.send('Error Fatal de Servidor');
 });
 app.listen(PORT, function () {
   console.log('joonik listening on port 3000!');
