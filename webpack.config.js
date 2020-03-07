@@ -1,11 +1,14 @@
 const path = require("path");
+const webpack = require('webpack')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = {
+  mode: "production",
   entry: {
     vendor: ["@babel/polyfill", "react"],
     app: ["./lib/components/index.js"]
   },
-
   output: {
     path: path.resolve(__dirname, "dist/public"),
     filename: "[name].js"
@@ -26,7 +29,20 @@ const config = {
   },
   resolve: {
     extensions: [".js", ".jsx", ".json", ".wasm", ".mjs", "*"]
-  }
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    
+  ],
 };
 
 module.exports = config;

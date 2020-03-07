@@ -25,7 +25,7 @@ router.get("/", /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            theHtml = "\n    <html>\n    <head><title>My First SSR</title></head>\n    <body>\n    <h1>My First Server Side Render</h1>\n    <div id=\"reactele\">{{{reactele}}}</div>\n    <script src=\"/app.js\" charset=\"utf-8\"></script>\n    <script src=\"/vendor.js\" charset=\"utf-8\"></script>\n    </body>\n    </html>\n    ";
+            theHtml = "\n    <html>\n    <head>\n    <title>JoonikShop</title>\n    <link\n  rel=\"stylesheet\"\n  href=\"https://unpkg.com/@shopify/polaris@4.14.0/styles.min.css\"/>\n    </head>\n    <body>\n    <div id=\"reactele\">{{{reactele}}}</div>\n    <script src=\"/app.js\" charset=\"utf-8\"></script>\n    <script src=\"/vendor.js\" charset=\"utf-8\"></script>\n    </body>\n    </html>\n    ";
             hbsTemplate = _handlebars["default"].compile(theHtml);
             reactComp = (0, _server.renderToString)(_react["default"].createElement(_app["default"], null));
             htmlToSend = hbsTemplate({
