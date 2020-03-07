@@ -11,7 +11,7 @@ var _polaris = require("@shopify/polaris");
 
 var _en = _interopRequireDefault(require("@shopify/polaris/locales/en.json"));
 
-var _Login = _interopRequireDefault(require("./Login"));
+var _login = _interopRequireDefault(require("./login"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -19,7 +19,7 @@ var App = function App() {
   // const { Component, pageProps } = props;
   return _react["default"].createElement(_polaris.AppProvider, {
     i18n: _en["default"]
-  }, _react["default"].createElement(_Login["default"], null));
+  }, _react["default"].createElement(_login["default"], null));
 };
 
 var _default = App;
