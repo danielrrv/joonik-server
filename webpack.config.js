@@ -34,9 +34,11 @@ const config = {
   //   minimize: true,
   //   minimizer: [new TerserPlugin()],
   // },
-  // plugins: [
-  //   new CleanWebpackPlugin(),
-  // ],
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env.SHOPIFY_API_KEY":JSON.stringify(process.env.SHOPIFY_API_KEY)
+    })
+  ],
 };
 
 module.exports = config;
