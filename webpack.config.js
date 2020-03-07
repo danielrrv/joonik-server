@@ -1,7 +1,7 @@
 const path = require("path");
-const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+// const webpack = require('webpack')
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
 
 const config = {
   mode: "production",
@@ -34,9 +34,9 @@ const config = {
   //   minimize: true,
   //   minimizer: [new TerserPlugin()],
   // },
-  plugins: [
-    new CleanWebpackPlugin(),
-  ],
+  // plugins: [
+  //   new CleanWebpackPlugin(),
+  // ],
 };
 
 module.exports = config;
