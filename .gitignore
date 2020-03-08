@@ -3,3 +3,4 @@
 /public
 /src
 /webpack.config.dev.js
+/__test__
