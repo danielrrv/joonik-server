@@ -42,7 +42,7 @@ const Home = () => {
     }
     return (
         <Page>
-            <PageActions
+            {/* <PageActions
                 primaryAction={[{
                     content: 'Logout',
                     destructive: true,
@@ -53,8 +53,8 @@ const Home = () => {
 
             <Card title="Online store dashboard" sectioned>
                 <p>View a summary of your online store’s performance.</p>
-            </Card>
-            {/* <Select /> */}
+            </Card> */}
+            <Select />
         </Page>
     )
 }
