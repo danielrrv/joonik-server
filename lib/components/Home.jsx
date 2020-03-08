@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ResourceListWithProducts from './ResourceList';
 import { ResourcePicker, TitleBar } from '@shopify/app-bridge-react';
 import {
     EmptyState,
@@ -11,6 +11,9 @@ import {
     SkeletonBodyText,
     SkeletonDisplayText
 } from '@shopify/polaris'
+
+
+
 
 const Home = () => {
     const [loading, setLoading] = React.useState(true)
@@ -55,6 +58,7 @@ const Home = () => {
                 <p>View a summary of your online store’s performance.</p>
             </Card>
             <Select />
+
         </Page>
     )
 }
@@ -67,8 +71,9 @@ const Select = () => {
     function handleSelection(resources) {
         const idsFromResources = resources.selection.map((product) => product.id);
         setOpen(false);
-        console.log(resources);
+        console.log(idsFromResources);
     };
+    const emptyState = !store.get('ids');
     return (
         <Page>
             <TitleBar primaryAction={{
@@ -82,7 +87,7 @@ const Select = () => {
                 onSelection={(resources) => handleSelection(resources)}
                 onCancel={() => setOpen(false)}
             />
-            <Layout>
+            {emptyState ? (<Layout>
                 <EmptyState
                     heading="Discount your products temporarily"
                     action={{
@@ -93,7 +98,8 @@ const Select = () => {
                 >
                     <p>Select products to change their price temporarily.</p>
                 </EmptyState>
-            </Layout>
+            </Layout>) : (<ResourceListWithProducts />)
+            }
         </Page>
     );
 

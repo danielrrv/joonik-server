@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.3",
     "handlebars": "^4.7.3",
     "history": "^4.10.1",
     "js-cookie": "^2.2.1",
@@ -43,7 +44,8 @@
     "regenerator-runtime": "^0.13.3",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
-    "shopify-token": "^4.0.0"
+    "shopify-token": "^4.0.0",
+    "store-js": "^2.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
