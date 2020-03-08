@@ -42,7 +42,7 @@ const Home = () => {
     }
     return (
         <Page>
-            {/* <PageActions
+            <PageActions
                 primaryAction={[{
                     content: 'Logout',
                     destructive: true,
@@ -53,13 +53,14 @@ const Home = () => {
 
             <Card title="Online store dashboard" sectioned>
                 <p>View a summary of your online store’s performance.</p>
-            </Card> */}
+            </Card>
             <Select />
         </Page>
     )
 }
 
 const img = 'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
+
 const Select = () => {
     const [open, setOpen] = React.useState(false);
 

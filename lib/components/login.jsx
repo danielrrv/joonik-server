@@ -10,7 +10,8 @@ const Login = ({ login }) => {
     const [password, setPassword] = React.useState('');
     const [emailError, setEmailError] = React.useState(false);
     const [passwordError, setPasswordError] = React.useState(false);
-    const [AuthError, setAuthError] = React.useState(false)
+    const [AuthError, setAuthError] = React.useState(false);
+
     const handleSubmit = () => {
         if (email.length < 4 || email.indexOf('@') === -1) {
             setEmailError(true)
