@@ -8,6 +8,7 @@ import Main from './Main'
 
 const App = () => {
     return (
+    
         <AppProvider i18n={translations}>
             <Main />
         </AppProvider>

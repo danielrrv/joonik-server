@@ -3,12 +3,14 @@ import Login from './login'
 import Home from './Home'
 import { Page } from '@shopify/polaris';
 import {
-    BrowserRouter as Router,
+    Router,
     Switch,
     Route,
 } from "react-router-dom";
 
-const Main = () => {
+import SSRouter from './SSRouter'                                                                                                
+ 
+const Main = (props) => {
     let user;
     try {
         user = window.localStorage.getItem('uuid');
@@ -23,17 +25,20 @@ const Main = () => {
         }
         if (loggedIn) window.localStorage.setItem('uuid', Math.floor(Math.random() * 100000));
     }, [loggedIn, setLoggedIn])
+    
     return (
         <Page>
-            <Router>
+            <SSRouter>
                 <Switch>
                     <Route exact path='/' render={(props) => (loggedIn ? (<Home {...props} />) : (<Login {...props} login={setLoggedIn} />))} />
                 </Switch>
-            </Router>
+            </SSRouter>
         </Page>
     );
 
 }
+
+
 
 
 export default Main;
