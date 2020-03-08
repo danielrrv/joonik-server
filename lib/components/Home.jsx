@@ -1,5 +1,6 @@
 import React from 'react';
 import ResourceListWithProducts from './ResourceList';
+import store from 'store-js';
 import { ResourcePicker, TitleBar } from '@shopify/app-bridge-react';
 import {
     EmptyState,
@@ -71,7 +72,7 @@ const Select = () => {
     function handleSelection(resources) {
         const idsFromResources = resources.selection.map((product) => product.id);
         setOpen(false);
-        console.log(idsFromResources);
+        store.set('ids', idsFromResources);
     };
     const emptyState = !store.get('ids');
     return (
