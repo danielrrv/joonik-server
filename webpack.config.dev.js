@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+require('dotenv').config()
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 /**
@@ -57,7 +58,7 @@ module.exports = {
 
                 }
             },
-        
+
             {
                 test: /\.css$/,
                 use: [
@@ -82,8 +83,11 @@ module.exports = {
         extensions: ['.js', '.jsx'],
     },
     plugins: [
-        htmlPluginIndex, 
-        /*htmlPluginAdmin*/  
+        new webpack.DefinePlugin({
+            'process.env.SHOPIFY_API_KEY': JSON.stringify(process.env.SHOPIFY_API_KEY),
+        }),
+        htmlPluginIndex,
+        /*htmlPluginAdmin*/
         new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {

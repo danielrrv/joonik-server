@@ -1,7 +1,8 @@
 const path = require("path");
-// const webpack = require('webpack')
+const webpack = require('webpack')
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+require('dotenv').config()
 
 const config = {
   mode: "production",
@@ -34,11 +35,11 @@ const config = {
     minimize: true,
     minimizer: [new TerserPlugin()],
   },
-  // plugins: [
-  //   new webpack.DefinePlugin({
-  //     "process.env.SHOPIFY_API_KEY":JSON.stringify(process.env.SHOPIFY_API_KEY)
-  //   })
-  // ],
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env.SHOPIFY_API_KEY":JSON.stringify(process.env.SHOPIFY_API_KEY)
+    })
+  ],
 };
 
 module.exports = config;

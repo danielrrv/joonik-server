@@ -54,7 +54,7 @@ const Home = () => {
             <Card title="Online store dashboard" sectioned>
                 <p>View a summary of your online store’s performance.</p>
             </Card>
-            <Select />
+            {/* <Select /> */}
         </Page>
     )
 }
