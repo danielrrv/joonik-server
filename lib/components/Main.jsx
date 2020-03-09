@@ -31,7 +31,7 @@ const Main = (props) => {
         <Page>
             <SSRouter>
                 <Switch>
-                    <Route exact path='/app' render={(props) => (loggedIn ? (<Home {...props} />) : (<Login {...props} login={setLoggedIn} />))} />
+                    <Route exact path='/' render={(props) => (loggedIn ? (<Home {...props} />) : (<Login {...props} login={setLoggedIn} />))} />
                     <Route exact path = '/edit-product' component={EditProduct} />
                 </Switch>
             </SSRouter>
