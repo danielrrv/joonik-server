@@ -23,14 +23,12 @@ if (typeof window === 'undefined') {
         link: createHttpLink({ uri: "/graphql", fetch }),
         cache: new InMemoryCache()
     });
-}
-else {
+} else {
     client = new ApolloClient({
         fetchOptions: {
             credentials: 'include'
         }
-    }
-
+    });
 }
 
 const App = () => {
