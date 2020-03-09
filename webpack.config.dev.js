@@ -8,10 +8,7 @@ require('dotenv').config()
  * This plugin allows us inject bundled JS into a index.html
 */
 
-const htmlPluginIndex = new HtmlWebPackPlugin({
-    template: "./lib/src/index.html",
-    filename: "./index.html"
-});
+const htmlPluginIndex = new HtmlWebPackPlugin();
 
 /**
  * 
@@ -45,7 +42,7 @@ module.exports = {
     //where you file will finally save
     output: {
         filename: "[name].bundle.js",
-        path: __dirname + "/dist/src"
+        path: path.join(__dirname, "dist/src")
     },
     devtool: 'inline-source-map',
     module: {
@@ -96,7 +93,8 @@ module.exports = {
         open: true,
         historyApiFallback: true,
         port: 3000,
-    }
+    },
+    
 }
 
 
