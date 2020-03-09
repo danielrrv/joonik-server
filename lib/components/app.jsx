@@ -4,22 +4,22 @@ import translations from '@shopify/polaris/locales/en.json';
 import Main from './Main'
 import { Provider } from '@shopify/app-bridge-react';
 import { SHOPIFY_APP_URL } from '../../config/index'
-import ApolloClient from 'apollo-boost';
-// import { ApolloClient } from 'apollo-client';
+// import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
-// import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 
 
 const client = new ApolloClient({
-    fetchOptions:{
-        credentials:'include'
-    }
-    // ssrMode:true,
-    // link:createHttpLink({ uri: "/graphql", fetch }),
-    // cache: new InMemoryCache()
+    // fetchOptions:{
+    //     credentials:'include'
+    // }
+    ssrMode:true,
+    link:createHttpLink({ uri: "/graphql", fetch }),
+    cache: new InMemoryCache()
 });
 
 const App = () => {
