@@ -7,7 +7,7 @@ import { SHOPIFY_APP_URL } from '../../config/index'
 // import ApolloClient from 'apollo-boost';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
-import fetch from 'node-fetch'
+// import fetch from 'node-fetch'
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from "apollo-cache-inmemory";
 
@@ -19,9 +19,9 @@ if (typeof window === 'undefined') {
         // fetchOptions:{
         //     credentials:'include'
         // }
-        ssrMode: true,
-        link: createHttpLink({ uri: "/graphql", fetch }),
-        cache: new InMemoryCache()
+        ssrForceFetchDelay: 100,
+        link: createHttpLink({ uri: "/graphql"}),
+        cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
     });
 } else {
     client = new ApolloClient({
