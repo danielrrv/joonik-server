@@ -13,25 +13,29 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 
 
 
-let client;
-if (typeof window === 'undefined') {
-    //On Server
-    client = new ApolloClient({
-        // fetchOptions:{
-        //     credentials:'include'
-        // }
-        ssrForceFetchDelay: 100,
-        link: createHttpLink({ uri: "/graphql", fetch }),
-        cache: new InMemoryCache(),
-    });
-} else {
-    //On client
-    client = new ApolloClient({
-        link: createHttpLink({ uri: "/graphql", credentials: 'same-origin'  }),
-        cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
-        ssrForceFetchDelay: 100
-    });
-}
+// let client;
+// if (typeof window === 'undefined') {
+//     //On Server
+//     client = new ApolloClient({
+//         // fetchOptions:{
+//         //     credentials:'include'
+//         // }
+//         ssrForceFetchDelay: 100,
+//         link: createHttpLink({ uri: "/graphql", fetch }),
+//         cache: new InMemoryCache(),
+//     });
+// } else {
+//On client
+const client = new ApolloClient({
+    fetchOptions: {
+        credentials: 'include'
+
+    },
+     link: createHttpLink({ uri: "/graphql", credentials: 'same-origin', fetch }),
+    cache: new InMemoryCache(),
+    // ssrForceFetchDelay: 100
+});
+// }
 
 const App = () => {
     const config = { apiKey: process.env.SHOPIFY_API_KEY, shopOrigin: SHOPIFY_APP_URL, forceRedirect: true }
