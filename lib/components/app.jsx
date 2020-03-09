@@ -15,6 +15,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 
 let client;
 if (typeof window === 'undefined') {
+    //On Server
     client = new ApolloClient({
         // fetchOptions:{
         //     credentials:'include'
@@ -24,9 +25,11 @@ if (typeof window === 'undefined') {
         cache:new InMemoryCache()
     });
 } else {
+    //On client
     client = new ApolloClient({
-        link: createHttpLink({ uri: "/graphql", fetch }),
-        cache: new InMemoryCache()
+        link: createHttpLink({ uri: "/graphql" }),
+        cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+        ssrForceFetchDelay:100
     });
 }
 
