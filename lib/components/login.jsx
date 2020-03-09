@@ -1,6 +1,7 @@
 import React from 'react'
 import { Page, InlineError, Spinner, Layout, Card, Form, FormLayout, Button, Checkbox, TextField } from '@shopify/polaris';
 import { EMAIL, PASSWORD } from '../../config/index'
+import e from 'express';
 
 
 
@@ -12,7 +13,8 @@ const Login = ({ login }) => {
     const [passwordError, setPasswordError] = React.useState(false);
     const [AuthError, setAuthError] = React.useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if (email.length < 4 || email.indexOf('@') === -1) {
             setEmailError(true)
             return;
