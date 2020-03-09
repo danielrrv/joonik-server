@@ -1,0 +1,28 @@
+query 	{
+    products( first:30)	{
+            edges	{
+                    node	{
+                             title
+    handle
+    descriptionHtml
+    id
+    images(first: 1) {
+      edges {
+        node {
+          originalSrc
+          altText
+        }
+      }
+    }
+    variants(first: 1) {
+      edges {
+        node {
+          price
+          id
+        }
+      }
+    }
+            }
+    }
+}
+}
