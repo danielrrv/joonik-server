@@ -22,14 +22,14 @@ if (typeof window === 'undefined') {
         // }
         ssrForceFetchDelay: 100,
         link: createHttpLink({ uri: "/graphql", fetch }),
-        cache:new InMemoryCache()
+        cache: new InMemoryCache(),
     });
 } else {
     //On client
     client = new ApolloClient({
-        link: createHttpLink({ uri: "/graphql" }),
+        link: createHttpLink({ uri: "/graphql", credentials: 'same-origin'  }),
         cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
-        ssrForceFetchDelay:100
+        ssrForceFetchDelay: 100
     });
 }
 
