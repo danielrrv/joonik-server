@@ -29,7 +29,6 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 const client = new ApolloClient({
     fetchOptions: {
         credentials: 'include'
-
     },
      link: createHttpLink({ uri: "/graphql", credentials: 'same-origin', fetch }),
     cache: new InMemoryCache(),
