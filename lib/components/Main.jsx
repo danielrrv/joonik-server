@@ -1,6 +1,7 @@
 import React from 'react'
 import Login from './login'
 import Home from './Home'
+import EditProduct from './Edit-products'
 import { Page } from '@shopify/polaris';
 import {
     Router,
@@ -31,6 +32,7 @@ const Main = (props) => {
             <SSRouter>
                 <Switch>
                     <Route exact path='/' render={(props) => (loggedIn ? (<Home {...props} />) : (<Login {...props} login={setLoggedIn} />))} />
+                    <Route exact path = '/edit-product' component={EditProduct} />
                 </Switch>
             </SSRouter>
         </Page>
