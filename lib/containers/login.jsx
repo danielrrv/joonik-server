@@ -49,7 +49,6 @@ const Login = ({ login }) => {
 
             <Page>
                 <Layout
-
                 >
                     <Layout.Section>
                         <Card title="Bienvenido a JoonikShop" sectioned>

@@ -45,7 +45,6 @@ const Home = () => {
                 <p>View a summary of your online store’s performance.</p>
             </Card>
             <ResourceListWithProducts />
-
         </Page>
     )
 }
