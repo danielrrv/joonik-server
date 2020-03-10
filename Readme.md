@@ -4,11 +4,11 @@ Server-side react app to integrate shopify services.
 
 ## How to use.
 
-*This app does not accept a custom shop yet. I uses a JoonikShop sample account.
+* This app does not accept a custom shop yet. I uses a JoonikShop sample account.
 
-*The app is server-side render. Althougth, server static bundle on '/'
+* The app is server-side render. Althougth, server static bundle on '/'
 
-*The login username& password can be found on config folder
+* The login username& password can be found on config folder
 
 
 
