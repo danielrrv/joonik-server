@@ -9,7 +9,7 @@ require('dotenv').config()
 */
 
 const htmlPluginIndex = new HtmlWebPackPlugin(
-    { template: "./lib/src/index.html" , filename:'./index.html'}
+    { template: "./lib/src/index.html", filename: './index.html' }
 );
 
 /**
@@ -49,6 +49,18 @@ module.exports = {
     devtool: 'inline-source-map',
     module: {
         rules: [
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    { loader: 'file-loader', }
+                ]
+
+
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,

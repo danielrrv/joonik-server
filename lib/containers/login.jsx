@@ -45,26 +45,30 @@ const Login = ({ login }) => {
     const handlePasswordChange = React.useCallback(value => { clearError(); setPassword(value) }, []);
 
     return (
+        <div>
 
-        <Page>
-            <Layout>
-                <Layout.Section>
-                    <Card title="Bienvenido a JoonikShop" sectioned>
-                        <Form onSubmit={handleSubmit} autoComplete={true}>
-                            <FormLayout>
-                                <TextField type="email" label="Email address" value={email} onChange={handleEmailChange} />
-                                {emailError && <InlineError message="Email is required and should have @ " fieldID="myFieldID" />}
-                                <TextField type="password" label="Password" value={password} onChange={handlePasswordChange} />
-                                {passwordError && <InlineError message="password is required or more than 4 characters" fieldID="myFieldID" />}
-                                <Button submit>Login</Button>
-                                {AuthError && <InlineError message={'Email or password incorrect'} fieldID="myFieldID" />}
-                                {loading && !AuthError && <Spinner accessibilityLabel="Spinner example" size="large" color="teal" />}
-                            </FormLayout>
-                        </Form>
-                    </Card>
-                </Layout.Section>
-            </Layout>
-        </Page>
+            <Page>
+                <Layout
+
+                >
+                    <Layout.Section>
+                        <Card title="Bienvenido a JoonikShop" sectioned>
+                            <Form onSubmit={handleSubmit} autoComplete={true}>
+                                <FormLayout>
+                                    <TextField type="email" label="Email address" value={email} onChange={handleEmailChange} />
+                                    {emailError && <InlineError message="Email is required and should have @ " fieldID="myFieldID" />}
+                                    <TextField type="password" label="Password" value={password} onChange={handlePasswordChange} />
+                                    {passwordError && <InlineError message="password is required or more than 4 characters" fieldID="myFieldID" />}
+                                    <Button submit>Login</Button>
+                                    {AuthError && <InlineError message={'Email or password incorrect'} fieldID="myFieldID" />}
+                                    {loading && !AuthError && <Spinner accessibilityLabel="Spinner example" size="large" color="teal" />}
+                                </FormLayout>
+                            </Form>
+                        </Card>
+                    </Layout.Section>
+                </Layout>
+            </Page>
+        </div>
     );
 }
 

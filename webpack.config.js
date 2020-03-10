@@ -17,6 +17,19 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+
+      {
         test: /\.(js|jsx)$/,
         use: {
           loader: "babel-loader",
@@ -37,7 +50,7 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.SHOPIFY_API_KEY":JSON.stringify(process.env.SHOPIFY_API_KEY)
+      "process.env.SHOPIFY_API_KEY": JSON.stringify(process.env.SHOPIFY_API_KEY)
     })
   ],
 };

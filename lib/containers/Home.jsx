@@ -1,14 +1,14 @@
 import React from 'react';
 import ResourceListWithProducts from '../components/ResourceList';
-import Details from '../components/Details';
+
 
 import {
-
     Card,
     TextContainer,
     PageActions,
     Page,
 
+    DisplayText,
     SkeletonBodyText,
     SkeletonDisplayText
 } from '@shopify/polaris'
@@ -35,12 +35,17 @@ const Home = () => {
                     content: 'Create product',
                     onAction: () => { window.location.href = 'edit-product' }
                 }]}
+                secondaryActions={[{
+                    content: "Logout",
+                    onAction: () => { window.localStorage.removeItem('uuid'); window.location.href = '/' }
+                }]}
             />
+            <DisplayText size="extraLarge">Welcome to JoonikShop.</DisplayText>
             <Card title="Online store dashboard" sectioned>
                 <p>View a summary of your online store’s performance.</p>
             </Card>
             <ResourceListWithProducts />
-             
+
         </Page>
     )
 }
