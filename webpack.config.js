@@ -3,7 +3,7 @@ const webpack = require('webpack')
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 require('dotenv').config()
-
+//No optimal.
 const config = {
   mode: "production",
   entry: {

@@ -3,5 +3,5 @@
 /public
 /src
 /webpack.config.dev.js
-# /__test__
+/__test__
 /build

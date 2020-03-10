@@ -8,6 +8,11 @@ import { ApolloProvider } from 'react-apollo';
 import fetch from 'node-fetch'
 
 
+//First off, client is passed to Apollo client as a props. client
+//is built based on where and when the render is going to take place
+//to/
+
+//forcerRedirect false. You want to be redirect to shopify embbed environment instead.
 
 
 

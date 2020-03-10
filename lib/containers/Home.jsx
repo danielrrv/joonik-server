@@ -18,11 +18,11 @@ import {
 
 const Home = () => {
     const [loading, setLoading] = React.useState(true)
+    //efect to regenerate a skeleto longer.
     React.useEffect(() => {
         setTimeout(() => {
             setLoading(false)
         }, Math.floor(Math.random() * 3000))
-
     }, []);
 
     if (loading) {
@@ -49,10 +49,8 @@ const Home = () => {
     )
 }
 
-const img = 'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
 
-
-
+//loader!/
 const Loader = () => {
     return (<>
         <Card sectioned>
