@@ -40,7 +40,7 @@ const Login = ({ login }) => {
 
     }, [AuthError, password, email, login])
 
-    const clearError = () => { setEmailError(false); setPasswordError(false); setAuthError(false) };
+    const clearError = () => { setEmailError(false); setPasswordError(false); setAuthError(false); setLoading(false) };
     const handleEmailChange = React.useCallback(value => { clearError(); setEmail(value) }, []);
     const handlePasswordChange = React.useCallback(value => { clearError(); setPassword(value) }, []);
 
@@ -58,7 +58,7 @@ const Login = ({ login }) => {
                                 {passwordError && <InlineError message="password is required or more than 4 characters" fieldID="myFieldID" />}
                                 <Button submit>Login</Button>
                                 {AuthError && <InlineError message={'Email or password incorrect'} fieldID="myFieldID" />}
-                                {loading && <Spinner accessibilityLabel="Spinner example" size="large" color="teal" />}
+                                {loading && !AuthError && <Spinner accessibilityLabel="Spinner example" size="large" color="teal" />}
                             </FormLayout>
                         </Form>
                     </Card>

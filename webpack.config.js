@@ -8,7 +8,7 @@ const config = {
   mode: "production",
   entry: {
     vendor: ["@babel/polyfill", "react"],
-    app: ["./lib/components/index.js"]
+    app: ["./lib/index.js"]
   },
   output: {
     path: path.resolve(__dirname, "dist/public"),

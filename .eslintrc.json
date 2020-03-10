@@ -4,12 +4,15 @@
       "ecmaVersion": 2017
     },
     "plugins": [
-      "promise"
+      "promise",
+      "react-hooks"
     ],
     "extends": "eslint:recommended",
     "rules": {
       // Removed rule "disallow the use of console" from recommended eslint rules
       "no-console": "off",
+      "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+      "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
   
       // Removed rule "disallow multiple spaces in regular expressions" from recommended eslint rules
       "no-regex-spaces": "off",

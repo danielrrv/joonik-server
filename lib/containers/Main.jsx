@@ -1,7 +1,7 @@
 import React from 'react'
 import Login from './login'
 import Home from './Home'
-import EditProduct from './Edit-products'
+import EditProduct from '../components/Create-products'
 import { Page } from '@shopify/polaris';
 import {
     Router,
@@ -9,7 +9,7 @@ import {
     Route,
 } from "react-router-dom";
 
-import SSRouter from './SSRouter'                                                                                                
+import SSRouter from '../components/SSRouter'                                                                                                
  
 const Main = (props) => {
     let user;
