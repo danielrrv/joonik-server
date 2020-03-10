@@ -48,9 +48,9 @@ const Home = () => {
         <Page>
             <PageActions
                 primaryAction={[{
-                    content: 'Logout',
-                    destructive: true,
-                    onAction: () => { window.localStorage.removeItem('uuid'); window.location.href = '/' }
+                    content: 'Create product',
+                    // onAction: () => { window.localStorage.removeItem('uuid'); window.location.href = '/' }
+                    onAction:()=>{window.location.href='edit-product'}
                 }]}
 
             />
