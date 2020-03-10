@@ -9,7 +9,7 @@ require('dotenv').config()
 */
 
 const htmlPluginIndex = new HtmlWebPackPlugin(
-    { template: "./lib/src/index.html" }
+    { template: "./lib/src/index.html" , filename:'./index.html'}
 );
 
 /**
