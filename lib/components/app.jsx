@@ -12,17 +12,17 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from "apollo-cache-inmemory";
 
 
-const client = new ApolloClient({
-    fetchOptions: {
-        credentials: 'include'
-    },
-    link: createHttpLink({ uri: "/graphql", fetch:fetch }),
-    cache: new InMemoryCache(),
+// const client = new ApolloClient({
+//     fetchOptions: {
+//         credentials: 'include'
+//     },
+//     link: createHttpLink({ uri: "/graphql", fetch:fetch }),
+//     cache: new InMemoryCache(),
 
-});
+// });
 
 
-const App = () => {
+const App = ({client}) => {
     const config = { apiKey: process.env.SHOPIFY_API_KEY, shopOrigin: SHOPIFY_APP_URL, forceRedirect: false }
     return (
         <Provider config={config}>
