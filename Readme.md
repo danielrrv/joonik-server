@@ -11,6 +11,9 @@ Server-side react app to integrate shopify services.
 * The login username& password can be found on config folder
 
 
+## How does it work
+* A Nodejs server serves endpoint to  get authorization from shopify and the serves first
+server-side rendering, followed by a hydratation. The challange is generate all the interactive environment on the server, in which there's no any browser capability as fetch and browser history
 
 
 ## Scripts
