@@ -5,3 +5,4 @@
 /webpack.config.dev.js
 /__test__
 /build
+/.env
